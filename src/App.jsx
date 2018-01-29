@@ -90,9 +90,7 @@ class App extends Component {
     persons.splice(personIndex, 1);
     this.setState({persons: persons});
   }
-  
-  
-  
+
   render() {
     /* Efficient way for writing conditions for the elements */
     let persons = null;
