@@ -1,0 +1,12 @@
+.person {
+  width: 600px;
+  height: 200px;
+  margin: 10px auto 0;
+  padding: 20px;
+  border: 1px solid grey;
+  box-shadow: 0 2px 9px #b5b5b5;
+}
+
+.person:not(:last-child) {
+  margin-bottom: 20px;
+}

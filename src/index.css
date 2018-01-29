@@ -1,0 +1,8 @@
+/* This CSS file includes all the Global Styles for the coponents */
+
+/* While working with the SCSS we can configure this file as the output of the 'main.scss' file */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
