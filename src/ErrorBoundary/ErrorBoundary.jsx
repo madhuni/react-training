@@ -1,6 +1,6 @@
 /*
   This 'ErrorBoundary' component is a good tool for
-  hanlding the 'errors' which 'are not in our control'
+  handling the 'errors' which 'are not in our control'
   means they may or may not happen and we can't do
   anything about them.
 */
