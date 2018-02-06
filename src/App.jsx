@@ -139,7 +139,7 @@ class App extends Component {
         <p className="radom">This is a random paragraph.</p>
         {/* This method of passing the new value to handler fn is in-efficient and we should avoid this */}
         <button onClick={() => this.switchNameHandler('Yo Vivek Bacha!')}>Switch Name</button>
-        <button onClick={this.togglePersonsHandler}>Toggle persons</button>
+        <button onClick={this.togglePersonsHandler} className='main-btn'>Toggle persons</button>
         {/*
           * Here we are using the 'state' property of the class to pass the values to the component.
           * When the state changes, it automatically updates the 'props' object which we are passing to component
