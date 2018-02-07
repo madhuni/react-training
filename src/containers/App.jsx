@@ -2,7 +2,9 @@
 import React, { Component } from 'react';
 import './App.css';
 // Importing our custom component
-import Person from './Person/Person';
+import Persons from '../components/Persons/Persons';
+import Person from '../components/Persons/Person/Person';
+import Cockpit from '../components/cockpit/Cockpit';
 
 class App extends Component {
   /* 'state' is a reserved property of the react-class. It will re-render the component if any change is observed */
@@ -77,14 +79,13 @@ class App extends Component {
   }
 
   togglePersonsHandler = () => {
-    // console.log('togglePersonsHandler is called');
     // console.log(this.state.isShowing);
     const doesShow = this.state.isShowing;
     this.setState({isShowing: !doesShow});
   }
 
   deletePersonHandler = (personIndex) => {
-    // console.log('deletePersonHandler is called');
+    console.log('deletePersonHandler is called');
     // const persons = this.state.persons; // here we are directly mutating the original state
     const persons = [...this.state.persons]; // creating copy of 'persons' array using 'spread' operator
     persons.splice(personIndex, 1);
@@ -110,20 +111,11 @@ class App extends Component {
         //   <Person name={this.state.persons[2].name} role={this.state.persons[2].role} />
         // </div>
 
-        /* Now we will loop though the Pesons array and will create the each 'Person' component */
         <div>
-          {
-            this.state.persons.map((person, index) => {
-              return (
-                <Person
-                  name={person.name}
-                  role={person.role}
-                  click={this.deletePersonHandler.bind(this, index)}
-                  key={person.id}
-                  changed={(event) => this.changeNameHandler(event, person.id)} />
-              )
-            })
-          }
+          <Persons
+            persons={this.state.persons}
+            deleted={this.deletePersonHandler}
+            changed={this.changeNameHandler} />
         </div>
       );
     }
@@ -135,16 +127,10 @@ class App extends Component {
        * In short if our component is having more than 1 elements, they should be wrapped into one single root element.
       */
       <div className="app">
-        <h1>This is a React Application.</h1>
-        <p className="radom">This is a random paragraph.</p>
-        {/* This method of passing the new value to handler fn is in-efficient and we should avoid this */}
-        <button onClick={() => this.switchNameHandler('Yo Vivek Bacha!')}>Switch Name</button>
-        <button onClick={this.togglePersonsHandler} className='main-btn'>Toggle persons</button>
-        {/*
-          * Here we are using the 'state' property of the class to pass the values to the component.
-          * When the state changes, it automatically updates the 'props' object which we are passing to component
-          * with the new values of changed state.
-        */}
+        <Cockpit
+          clicked = {this.switchNameHandler}
+          toggle = {this.togglePersonsHandler}
+          title = {this.props.title} />
 
         {persons} {/* Then we are adding the 'persons' variable here */}
 
