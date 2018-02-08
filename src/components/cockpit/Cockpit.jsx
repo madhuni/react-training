@@ -1,8 +1,11 @@
 import React from 'react';
 
+import Aux from '../../hoc/Aux';
+
 const Cockpit = function(props) {
   return(
-    <div className='app-cockpit'>
+    /* Instead of wrapping a 'html' element 'div' we can use the Higher order Component to wrap the adjacent elements */
+    <Aux>
       <h1>{ props.title }</h1>
       <p className="radom">This is a random paragraph.</p>
           {/* This method of passing the new value to handler fn is in-efficient and we should avoid this */ }
@@ -13,7 +16,7 @@ const Cockpit = function(props) {
         * When the state changes, it automatically updates the 'props' object which we are passing to component
         * with the new values of changed state.
       */}
-    </div>
+    </Aux>
   );
 }
 

@@ -1,12 +1,49 @@
 /* 'React' object is needed to be imported along with the 'Component' object */
-import React, { Component } from 'react';
+// import React, { Component } from 'react';
+
+/* importing the 'PureComponent' instead of 'Component' */
+import React, { PureComponent } from 'react';
 import './App.css';
 // Importing our custom component
 import Persons from '../components/Persons/Persons';
 import Person from '../components/Persons/Person/Person';
 import Cockpit from '../components/cockpit/Cockpit';
+import Aux from '../hoc/Aux';
 
-class App extends Component {
+class App extends PureComponent {
+  /**
+   * Implementing the React Lifecycle Hooks for the 'App' Component
+  */
+
+  constructor(props) {
+    /* We need to call the 'constructor()' method of the class we extends (Componet) */
+    super(props);
+    console.log('[App.jsx] inside constructor', props);
+  }
+
+  componentWillMount() {
+    console.log('[App.jsx] inside componentWillMount');
+  }
+
+  componentDidMount() {
+    console.log('[App.jsx] inside componentDidMount');
+  }
+
+  /**
+   * If we want to decide whether we need to 'update' or not automatically. React gives us the way to
+   * do so using the 'PureComponent'.
+   * If we are using the 'PureComponent' instead of 'Component' then we will not handle the
+   * 'shouldComponentUpdate()' method in our component.
+   * Hence we are going to comment the below code and will extend the 'PureComponent'.
+   */
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('[App.jsx] inside shouldComponentUpdate', nextProps, nextState);
+  //   /* Here we are doing shallow checking for all the props and state */
+  //   return nextState.persons !== this.state.persons ||
+  //   nextState.isShowing !== this.state.isShowing;
+  // }
+
   /* 'state' is a reserved property of the react-class. It will re-render the component if any change is observed */
   state = {
     persons: [{
@@ -22,7 +59,8 @@ class App extends Component {
       name: 'Kanishka',
       role: 'Frontend Developer'
     }],
-    isShowing: false
+    isShowing: false,
+    toggleClicked: 0
   }
 
   switchNameHandler = (newName) => {
@@ -81,11 +119,27 @@ class App extends Component {
   togglePersonsHandler = () => {
     // console.log(this.state.isShowing);
     const doesShow = this.state.isShowing;
-    this.setState({isShowing: !doesShow});
+    /* Old way of mutating the State of the application */
+    // this.setState(
+    //   {
+    //     isShowing: !doesShow,
+    //     /* Here we are updating the value of 'toggleClicked' using the
+    //     last value of 'toggleClicked' in the 'current state' using 'this.state' */
+    //     toggleClicked: this.state.toggleClicked + 1
+    //   }
+    // );
+
+    /* New way of updating the State when the value depends on the previous state values */
+    this.setState( (prevState, props) => {
+      return {
+        isShowing: !doesShow,
+        toggleClicked: prevState.toggleClicked +1
+      }
+    });
   }
 
   deletePersonHandler = (personIndex) => {
-    console.log('deletePersonHandler is called');
+    // console.log('deletePersonHandler is called');
     // const persons = this.state.persons; // here we are directly mutating the original state
     const persons = [...this.state.persons]; // creating copy of 'persons' array using 'spread' operator
     persons.splice(personIndex, 1);
@@ -93,6 +147,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('[App.jsx] inside render');
     /* Efficient way for writing conditions for the elements */
     let persons = null;
 
@@ -111,12 +166,12 @@ class App extends Component {
         //   <Person name={this.state.persons[2].name} role={this.state.persons[2].role} />
         // </div>
 
-        <div>
+        <Aux>
           <Persons
             persons={this.state.persons}
             deleted={this.deletePersonHandler}
             changed={this.changeNameHandler} />
-        </div>
+        </Aux>
       );
     }
 
@@ -127,6 +182,7 @@ class App extends Component {
        * In short if our component is having more than 1 elements, they should be wrapped into one single root element.
       */
       <div className="app">
+        <button className="main-btn" onClick={() => {this.setState({isShowing: true});}}>Show persons</button>
         <Cockpit
           clicked = {this.switchNameHandler}
           toggle = {this.togglePersonsHandler}
